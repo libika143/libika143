@@ -1,0 +1,33 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+
+# Step 1: Sample data
+data = {
+    'Age': [25, 45, 35, 52, 23, 40, 60, 48, 33, 55],
+    'MonthlyCharges': [70, 120, 90, 130, 65, 110, 140, 125, 85, 135],
+    'Tenure': [1, 10, 5, 12, 2, 8, 15, 11, 6, 14],
+    'Churn': [1, 0, 0, 0, 1, 0, 0, 0, 1, 0]  # 1 = churned, 0 = stayed
+}
+
+# Step 2: Create DataFrame
+df = pd.DataFrame(data)
+
+# Step 3: Split data
+X = df[['Age', 'MonthlyCharges', 'Tenure']]
+y = df['Churn']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+
+# Step 4: Train model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Step 5: Predict
+y_pred = model.predict(X_test)
+
+# Step 6: Output results
+print("Predictions:", y_pred)
+print("Actual:", y_test.values)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Classification Report:\n", classification_report(y_test, y_pred))
